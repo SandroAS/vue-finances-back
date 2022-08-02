@@ -49,17 +49,23 @@ function records (_, { month, type, accountsIds, categoriesIds }, ctx, info) {
   AND = !type ? AND : [ ...AND, { type } ]
 
   AND = !accountsIds || accountsIds.length === 0
-    ? AND
-    : [ ...AND, { OR: accountsIds.map(id => ({ account: { id } })) }]
+   ? AND
+   : [
+     ...AND,
+     { OR: accountsIds.map(id => ({ account: { id } })) }
+   ]
 
-    AND = !categoriesIds || categoriesIds.length === 0
-    ? AND
-    : [ ...AND, { OR: categoriesIds.map(id => ({ category: { id } })) }]
+  AND = !categoriesIds || categoriesIds.length === 0
+   ? AND
+   : [
+     ...AND,
+     { OR: categoriesIds.map(id => ({ category: { id } })) }
+   ]
 
   if (month) {
     const date = moment(month, 'MM-YYYY')
-    const startDate = date.startOf('month').toISOString
-    const endDate = date.endOf('month').toISOString
+    const startDate = date.startOf('month').toISOString()
+    const endDate = date.endOf('month').toISOString()
     AND = [
       ...AND,
       { date_gte: startDate },
